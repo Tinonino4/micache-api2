@@ -1,0 +1,56 @@
+server:
+  address: 0.0.0.0
+  port: 8080
+
+spring:
+  application:
+    name: mi-cache
+  datasource:
+    url: jdbc:postgresql://localhost:5432/micache-db
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+        ddl-auto: update
+        default_schema: public
+    show-sql: true
+    properties:
+        hibernate:
+          format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USER}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        debug: true
+
+jwt:
+  secret-key: ${JWT_SECRET_KEY:my-super-secret-key-that-should-be-very-long}
+  expiration-ms: 3600000 # 1 hora en milisegundos
+
+app:
+  confirmation-url: http://localhost:8080/auth/confirm
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
+  security:
+    enabled: false
+
+logging:
+  level:
+    org.springframework.web.cors: DEBUG
