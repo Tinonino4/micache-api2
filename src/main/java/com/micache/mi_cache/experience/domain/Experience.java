@@ -1,4 +1,4 @@
-package com.micache.mi_cache.model;
+package com.micache.mi_cache.experience.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

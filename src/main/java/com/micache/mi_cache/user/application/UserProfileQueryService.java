@@ -1,19 +1,21 @@
-package com.micache.mi_cache.service;
+package com.micache.mi_cache.user.application;
 
-import com.micache.mi_cache.dto.UserProfileResponse;
+import org.springframework.stereotype.Service;
+
 import com.micache.mi_cache.security.exception.ResourceNotFoundException;
 import com.micache.mi_cache.user.domain.User;
-import com.micache.mi_cache.model.UserProfile;
-import com.micache.mi_cache.repository.UserProfileRepository;
-import com.micache.mi_cache.security.repository.UserRepository;
+import com.micache.mi_cache.user.domain.UserProfile;
+import com.micache.mi_cache.user.domain.repository.UserAccountRepository;
+import com.micache.mi_cache.user.domain.repository.UserProfileRepository;
+import com.micache.mi_cache.user.interfaces.rest.dto.UserProfileResponse;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserProfileQueryService {
 
-    private final UserRepository userRepository;
+    private final UserAccountRepository userRepository;
     private final UserProfileRepository userProfileRepository;
 
     public UserProfileResponse getMyProfile(String email) {
@@ -23,11 +25,6 @@ public class UserService {
         UserProfile profile = userProfileRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Profile not found"));
 
-        return new UserProfileResponse(
-                profile.getName(),
-                profile.getCity(),
-                profile.getEducation(),
-                profile.getJobTitle()
-        );
+        return UserProfileResponse.fromDomain(profile);
     }
 }

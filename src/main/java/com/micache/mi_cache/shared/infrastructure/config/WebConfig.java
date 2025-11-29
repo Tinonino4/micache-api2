@@ -1,4 +1,4 @@
-package com.micache.mi_cache.config;
+package com.micache.mi_cache.shared.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
