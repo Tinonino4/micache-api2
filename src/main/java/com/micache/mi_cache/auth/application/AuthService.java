@@ -1,26 +1,22 @@
 package com.micache.mi_cache.auth.application;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import com.micache.mi_cache.auth.domain.RegisterRequest;
-import com.micache.mi_cache.auth.domain.events.UserRegisteredEvent;
+import com.micache.mi_cache.auth.domain.events.UserRegistrationCompletedEvent;
 import com.micache.mi_cache.security.exception.EmailAlreadyExistsException;
 import com.micache.mi_cache.security.exception.InvalidPasswordException;
-import com.micache.mi_cache.model.UserProfile;
-import com.micache.mi_cache.repository.UserProfileRepository;
 import com.micache.mi_cache.shared.domain.EventBus;
 import com.micache.mi_cache.security.service.JwtService;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.micache.mi_cache.security.model.ConfirmationToken;
 import com.micache.mi_cache.user.domain.User;
+import com.micache.mi_cache.security.model.ConfirmationToken;
 import com.micache.mi_cache.security.repository.ConfirmationTokenRepository;
 import com.micache.mi_cache.security.repository.UserRepository;
 
@@ -30,15 +26,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
+    private final ConfirmationTokenRepository confirmationTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final ConfirmationTokenRepository confirmationTokenRepository;
-    private final UserProfileRepository userProfileRepository;
     private final EventBus eventBus;
-
-    @Value("${app.confirmation-url}")
-    private String confirmationUrl;
 
     public String login(String email, String password) throws AuthenticationException {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
@@ -66,28 +58,7 @@ public class AuthService {
         user.setRole("USER");
 
         userRepository.save(user);
-
-        UserProfile profile = new UserProfile();
-        profile.setUser(user);
-        profile.setName(request.name());
-        profile.setPhoto("https://randomuser.me/api/portraits/lego/1.jpg");
-
-        userProfileRepository.save(profile);
-
-        // Crear Confirmation Token
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = ConfirmationToken.builder()
-                .token(token)
-                .user(user)
-                .createdAt(LocalDateTime.now())
-                .expiresAt(LocalDateTime.now().plusHours(24))
-                .confirmed(false)
-                .build();
-
-        confirmationTokenRepository.save(confirmationToken);
-
-        String link = confirmationUrl + "?token=" + token;
-        eventBus.publish(new UserRegisteredEvent(user.getEmail(), request.name(), link));
+        eventBus.publish(new UserRegistrationCompletedEvent(user.getId(), user.getEmail(), request.name()));
     }
 
     public boolean confirmToken(String token) {
