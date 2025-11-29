@@ -1,7 +1,7 @@
-package com.micache.mi_cache.auth.application;
+package com.micache.mi_cache.auth.application.listener;
 
 import com.micache.mi_cache.auth.domain.events.UserRegisteredEvent;
-import com.micache.mi_cache.service.EmailService;
+import com.micache.mi_cache.shared.infrastructure.email.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -18,8 +18,8 @@ public class UserRegisteredEventListener {
 
     private final EmailService emailService;
 
-    @EventListener
-    public void handle(UserRegisteredEvent event) {
+    @EventListener(UserRegisteredEvent.class)
+    public void onUserRegistered(UserRegisteredEvent event) {
         String emailTemplate;
         try {
             emailTemplate = Files.readString(Paths.get(TEMPLATE_PATH));

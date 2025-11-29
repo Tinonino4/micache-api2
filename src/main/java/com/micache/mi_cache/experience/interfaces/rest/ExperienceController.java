@@ -1,22 +1,24 @@
-package com.micache.mi_cache.controller;
+package com.micache.mi_cache.experience.interfaces.rest;
 
-import com.micache.mi_cache.dto.ExperienceResponse;
-import com.micache.mi_cache.service.ExperienceService;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.micache.mi_cache.experience.application.ExperienceQueryService;
+import com.micache.mi_cache.experience.interfaces.rest.dto.ExperienceResponse;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class ExperienceController {
 
-    private final ExperienceService experienceService;
+    private final ExperienceQueryService experienceService;
 
     @GetMapping("/{id}/experiences")
     public ResponseEntity<List<ExperienceResponse>> getExperiencesByUser(@PathVariable Long id) {

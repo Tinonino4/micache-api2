@@ -1,4 +1,4 @@
-package com.micache.mi_cache.service;
+package com.micache.mi_cache.shared.infrastructure.email;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
