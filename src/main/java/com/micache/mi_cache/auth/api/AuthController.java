@@ -1,9 +1,9 @@
-package com.micache.mi_cache.controller;
+package com.micache.mi_cache.auth.api;
 
-import com.micache.mi_cache.dto.RegisterRequest;
-import com.micache.mi_cache.exception.InvalidTokenException;
-import com.micache.mi_cache.exception.TokenExpiredException;
-import com.micache.mi_cache.service.ConfirmationTokenService;
+import com.micache.mi_cache.auth.domain.RegisterRequest;
+import com.micache.mi_cache.security.exception.InvalidTokenException;
+import com.micache.mi_cache.security.exception.TokenExpiredException;
+import com.micache.mi_cache.security.service.ConfirmationTokenService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.micache.mi_cache.dto.LoginRequest;
-import com.micache.mi_cache.dto.LoginResponse;
-import com.micache.mi_cache.model.User;
-import com.micache.mi_cache.service.AuthService;
+import com.micache.mi_cache.auth.domain.LoginRequest;
+import com.micache.mi_cache.auth.domain.LoginResponse;
+import com.micache.mi_cache.auth.application.AuthService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -43,7 +42,7 @@ public class AuthController {
             @ApiResponse(responseCode = "401", description = "Credenciales inválidas")
     })
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-        String token = authService.login(request.getEmail(), request.getPassword());
+        String token = authService.login(request.email(), request.password());
         return ResponseEntity.ok(new LoginResponse(token));
     }
 

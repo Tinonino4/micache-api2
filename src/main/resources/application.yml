@@ -1,14 +1,16 @@
 server:
   address: 0.0.0.0
-  port: 8080
+  port: 8082
+  servlet:
+    context-path: /api/v1
 
 spring:
   application:
     name: mi-cache
   datasource:
-    url: jdbc:postgresql://localhost:5432/micache-db
-    username: postgres
-    password: password
+    url: jdbc:postgresql://localhost:5432/micachedb
+    username: admin
+    password: admin123
   jpa:
     hibernate:
         ddl-auto: update

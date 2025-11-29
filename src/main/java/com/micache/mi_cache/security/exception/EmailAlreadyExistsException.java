@@ -1,4 +1,4 @@
-package com.micache.mi_cache.exception;
+package com.micache.mi_cache.security.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

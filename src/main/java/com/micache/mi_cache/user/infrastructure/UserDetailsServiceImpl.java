@@ -1,11 +1,11 @@
-package com.micache.mi_cache.service;
+package com.micache.mi_cache.user.infrastructure;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.micache.mi_cache.repository.UserRepository;
+import com.micache.mi_cache.security.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 

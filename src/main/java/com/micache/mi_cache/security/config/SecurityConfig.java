@@ -1,4 +1,4 @@
-package com.micache.mi_cache.config;
+package com.micache.mi_cache.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.micache.mi_cache.security.JwtAuthenticationFilter;
+import com.micache.mi_cache.security.filter.JwtAuthenticationFilter;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

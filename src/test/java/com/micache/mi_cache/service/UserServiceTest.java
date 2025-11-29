@@ -1,19 +1,16 @@
 package com.micache.mi_cache.service;
 
 import com.micache.mi_cache.dto.UserProfileResponse;
-import com.micache.mi_cache.exception.ResourceNotFoundException;
-import com.micache.mi_cache.model.User;
+import com.micache.mi_cache.security.exception.ResourceNotFoundException;
+import com.micache.mi_cache.user.domain.User;
 import com.micache.mi_cache.model.UserProfile;
 import com.micache.mi_cache.repository.UserProfileRepository;
-import com.micache.mi_cache.repository.UserRepository;
+import com.micache.mi_cache.security.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 

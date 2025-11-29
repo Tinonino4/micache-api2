@@ -1,11 +1,11 @@
 package com.micache.mi_cache.service;
 
 import com.micache.mi_cache.dto.UserProfileResponse;
-import com.micache.mi_cache.exception.ResourceNotFoundException;
-import com.micache.mi_cache.model.User;
+import com.micache.mi_cache.security.exception.ResourceNotFoundException;
+import com.micache.mi_cache.user.domain.User;
 import com.micache.mi_cache.model.UserProfile;
 import com.micache.mi_cache.repository.UserProfileRepository;
-import com.micache.mi_cache.repository.UserRepository;
+import com.micache.mi_cache.security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,6 @@ public class UserService {
 
         return new UserProfileResponse(
                 profile.getName(),
-                profile.getSurname(),
                 profile.getCity(),
                 profile.getEducation(),
                 profile.getJobTitle()

@@ -1,4 +1,4 @@
-package com.micache.mi_cache.security;
+package com.micache.mi_cache.security.filter;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.micache.mi_cache.service.JwtService;
+import com.micache.mi_cache.security.service.JwtService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

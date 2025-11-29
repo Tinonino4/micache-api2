@@ -3,6 +3,7 @@ package com.micache.mi_cache.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.micache.mi_cache.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -31,10 +32,6 @@ public class UserProfile {
     @NotBlank
     @Size(max = 100)
     private String name;
-
-    @NotBlank
-    @Size(max = 100)
-    private String surname;
 
     @Email
     @NotBlank

@@ -1,11 +1,11 @@
-package com.micache.mi_cache.service;
+package com.micache.mi_cache.security.service;
 
-import com.micache.mi_cache.exception.InvalidTokenException;
-import com.micache.mi_cache.exception.TokenExpiredException;
-import com.micache.mi_cache.model.ConfirmationToken;
-import com.micache.mi_cache.model.User;
-import com.micache.mi_cache.repository.ConfirmationTokenRepository;
-import com.micache.mi_cache.repository.UserRepository;
+import com.micache.mi_cache.security.exception.InvalidTokenException;
+import com.micache.mi_cache.security.exception.TokenExpiredException;
+import com.micache.mi_cache.security.model.ConfirmationToken;
+import com.micache.mi_cache.user.domain.User;
+import com.micache.mi_cache.security.repository.ConfirmationTokenRepository;
+import com.micache.mi_cache.security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.micache.mi_cache.service;
+package com.micache.mi_cache.auth.application;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,11 +6,14 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.micache.mi_cache.dto.RegisterRequest;
-import com.micache.mi_cache.exception.EmailAlreadyExistsException;
-import com.micache.mi_cache.exception.InvalidPasswordException;
+import com.micache.mi_cache.auth.domain.RegisterRequest;
+import com.micache.mi_cache.security.exception.EmailAlreadyExistsException;
+import com.micache.mi_cache.security.exception.InvalidPasswordException;
 import com.micache.mi_cache.model.UserProfile;
 import com.micache.mi_cache.repository.UserProfileRepository;
+import com.micache.mi_cache.security.service.JwtService;
+import com.micache.mi_cache.service.EmailService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,10 +21,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.micache.mi_cache.model.ConfirmationToken;
-import com.micache.mi_cache.model.User;
-import com.micache.mi_cache.repository.ConfirmationTokenRepository;
-import com.micache.mi_cache.repository.UserRepository;
+import com.micache.mi_cache.security.model.ConfirmationToken;
+import com.micache.mi_cache.user.domain.User;
+import com.micache.mi_cache.security.repository.ConfirmationTokenRepository;
+import com.micache.mi_cache.security.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,21 +48,22 @@ public class AuthService {
         return jwtService.generateToken(user);
     }
 
+    @Transactional
     public void register(RegisterRequest request) {
         // Validar si el email ya existe
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(request.email()).isPresent()) {
             throw new EmailAlreadyExistsException("Email already registered.");
         }
 
         // Validar formato de password
-        if (!isPasswordValid(request.getPassword())) {
+        if (!isPasswordValid(request.password())) {
             throw new InvalidPasswordException("Password must contain at least one uppercase letter, one lowercase letter and one number.");
         }
 
         // Crear usuario
         User user = new User();
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setEmail(request.email());
+        user.setPassword(passwordEncoder.encode(request.password()));
         user.setActive(false);
         user.setRole("USER");
 
@@ -67,8 +71,7 @@ public class AuthService {
 
         UserProfile profile = new UserProfile();
         profile.setUser(user);
-        profile.setName(request.getName());
-        profile.setSurname(request.getSurname());
+        profile.setName(request.name());
         profile.setPhoto("https://randomuser.me/api/portraits/lego/1.jpg");
 
         userProfileRepository.save(profile);

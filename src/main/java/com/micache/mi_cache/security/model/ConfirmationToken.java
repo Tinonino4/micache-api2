@@ -1,7 +1,8 @@
-package com.micache.mi_cache.model;
+package com.micache.mi_cache.security.model;
 
 import java.time.LocalDateTime;
 
+import com.micache.mi_cache.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

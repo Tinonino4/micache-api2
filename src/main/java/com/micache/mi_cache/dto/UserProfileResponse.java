@@ -11,7 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserProfileResponse {
     private String name;
-    private String surname;
     private String city;
     private String education;
     private String jobTitle;

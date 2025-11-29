@@ -1,8 +1,9 @@
-package com.micache.mi_cache.model;
+package com.micache.mi_cache.user.domain;
 
 import java.util.Collection;
 import java.util.List;
 
+import com.micache.mi_cache.model.UserProfile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
