@@ -1,18 +1,16 @@
 package com.micache.mi_cache.auth.application;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.micache.mi_cache.auth.domain.RegisterRequest;
+import com.micache.mi_cache.auth.domain.events.UserRegisteredEvent;
 import com.micache.mi_cache.security.exception.EmailAlreadyExistsException;
 import com.micache.mi_cache.security.exception.InvalidPasswordException;
 import com.micache.mi_cache.model.UserProfile;
 import com.micache.mi_cache.repository.UserProfileRepository;
+import com.micache.mi_cache.shared.domain.EventBus;
 import com.micache.mi_cache.security.service.JwtService;
-import com.micache.mi_cache.service.EmailService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,8 +34,8 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final ConfirmationTokenRepository confirmationTokenRepository;
-    private final EmailService emailService;
     private final UserProfileRepository userProfileRepository;
+    private final EventBus eventBus;
 
     @Value("${app.confirmation-url}")
     private String confirmationUrl;
@@ -88,18 +86,8 @@ public class AuthService {
 
         confirmationTokenRepository.save(confirmationToken);
 
-        // Leer template y enviar email
         String link = confirmationUrl + "?token=" + token;
-        String emailTemplate;
-        try {
-            emailTemplate = new String(Files.readAllBytes(Paths.get("src/main/resources/templates/email_template_confirmacion.html")));
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading email template", e);
-        }
-
-        String emailContent = emailTemplate.replace("{{CONFIRMATION_LINK}}", link);
-
-        emailService.sendEmail(user.getEmail(), "Email confirmation", emailContent);
+        eventBus.publish(new UserRegisteredEvent(user.getEmail(), request.name(), link));
     }
 
     public boolean confirmToken(String token) {
