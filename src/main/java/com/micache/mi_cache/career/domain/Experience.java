@@ -1,4 +1,4 @@
-package com.micache.mi_cache.model;
+package com.micache.mi_cache.career.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,7 +15,6 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
-import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity

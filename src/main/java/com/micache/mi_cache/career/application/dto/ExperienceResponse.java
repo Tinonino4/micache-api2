@@ -1,4 +1,4 @@
-package com.micache.mi_cache.dto;
+package com.micache.mi_cache.career.application.dto;
 
 import java.time.LocalDate;
 
