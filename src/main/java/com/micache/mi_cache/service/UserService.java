@@ -10,11 +10,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final UserProfileRepository userProfileRepository;
+
+    public UserService(UserRepository userRepository, UserProfileRepository userProfileRepository) {
+        this.userRepository = userRepository;
+        this.userProfileRepository = userProfileRepository;
+    }
 
     public UserProfileResponse getMyProfile(String email) {
         User user = userRepository.findByEmail(email)

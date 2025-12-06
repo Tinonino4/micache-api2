@@ -13,10 +13,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@RequiredArgsConstructor
 public class ExperienceController {
 
     private final ExperienceService experienceService;
+
+    public ExperienceController(ExperienceService experienceService) {
+        this.experienceService = experienceService;
+    }
 
     @GetMapping("/{id}/experiences")
     public ResponseEntity<List<ExperienceResponse>> getExperiencesByUser(@PathVariable Long id) {

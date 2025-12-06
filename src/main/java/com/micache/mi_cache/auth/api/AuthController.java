@@ -28,12 +28,16 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
 @Tag(name = "Autenticación", description = "Endpoints para registro, login y confirmación de email")
 public class AuthController {
 
     private final AuthService authService;
     private final ConfirmationTokenService confirmationTokenService;
+
+    public AuthController(AuthService authService, ConfirmationTokenService confirmationTokenService) {
+        this.authService = authService;
+        this.confirmationTokenService = confirmationTokenService;
+    }
 
     @PostMapping("/login")
     @Operation(summary = "Iniciar sesión", description = "Autentica un usuario registrado y devuelve un token JWT para futuras solicitudes.")

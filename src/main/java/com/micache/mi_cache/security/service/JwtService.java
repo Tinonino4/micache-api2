@@ -1,5 +1,6 @@
 package com.micache.mi_cache.security.service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -11,17 +12,18 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import java.security.Key;
+import javax.crypto.SecretKey;
 
 @Component
 public class JwtService {
 
-    private final Key secretKey;
+    private final SecretKey secretKey;
     private final long expirationTimeMs;
 
     public JwtService(@Value("${jwt.secret-key}") String secretKeyString,
                       @Value("${jwt.expiration-ms}") long expirationTimeMs) {
-        this.secretKey = Keys.hmacShaKeyFor(secretKeyString.getBytes());
+        // Keys.hmacShaKeyFor devuelve un SecretKey, así que esto encaja perfecto.
+        this.secretKey = Keys.hmacShaKeyFor(secretKeyString.getBytes(StandardCharsets.UTF_8));
         this.expirationTimeMs = expirationTimeMs;
     }
 
@@ -35,11 +37,11 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
+        return Jwts.parser()
+                .verifyWith(secretKey)     // Antes: setSigningKey(secretKey)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)  // Antes: parseClaimsJws(token)
+                .getPayload();             // Antes: getBody()
     }
 
     public String generateToken(UserDetails userDetails) {

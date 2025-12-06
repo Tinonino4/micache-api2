@@ -12,11 +12,15 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-@RequiredArgsConstructor
 public class ConfirmationTokenService {
 
     private final ConfirmationTokenRepository tokenRepository;
     private final UserRepository userRepository;
+
+    public ConfirmationTokenService(ConfirmationTokenRepository tokenRepository, UserRepository userRepository) {
+        this.tokenRepository = tokenRepository;
+        this.userRepository = userRepository;
+    }
 
     public void validateToken(String token) {
         ConfirmationToken confirmationToken = tokenRepository.findByToken(token)

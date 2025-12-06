@@ -26,7 +26,7 @@ class ExperienceServiceTest {
     @Test
     void shouldReturnExperiences() {
         Experience exp = new Experience();
-        exp.setCompany("EUROPASTRY");
+        exp.setCompanyName("EUROPASTRY");
 
         when(experienceRepository.findByUserIdOrderByIdDesc(1L))
                 .thenReturn(List.of(exp));
@@ -34,6 +34,6 @@ class ExperienceServiceTest {
         List<ExperienceResponse> experiences = experienceService.getExperiencesByUser(1L);
 
         assertEquals(1, experiences.size());
-        assertEquals("EUROPASTRY", experiences.get(0).getCompany());
+        assertEquals("EUROPASTRY", experiences.get(0).companyName());
     }
 }

@@ -17,12 +17,19 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
-@RequiredArgsConstructor
 public class ConfirmationTokenCreationListener {
 
     private final ConfirmationTokenRepository confirmationTokenRepository;
     private final UserRepository userRepository;
     private final EventBus eventBus;
+
+    public ConfirmationTokenCreationListener(ConfirmationTokenRepository confirmationTokenRepository,
+                                             UserRepository userRepository,
+                                             EventBus eventBus) {
+        this.confirmationTokenRepository = confirmationTokenRepository;
+        this.userRepository = userRepository;
+        this.eventBus = eventBus;
+    }
 
     @Value("${app.confirmation-url}")
     private String confirmationUrl;

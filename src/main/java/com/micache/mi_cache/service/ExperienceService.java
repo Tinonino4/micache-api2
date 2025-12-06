@@ -9,22 +9,25 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class ExperienceService {
 
     private final ExperienceRepository experienceRepository;
 
+    public ExperienceService(ExperienceRepository experienceRepository) {
+        this.experienceRepository = experienceRepository;
+    }
+
     public List<ExperienceResponse> getExperiencesByUser(Long userId) {
         List<Experience> experiences = experienceRepository.findByUserIdOrderByIdDesc(userId);
         return experiences.stream()
-                .map(e -> new ExperienceResponse(
-                        e.getId(),
-                        e.getCompanyName(),
-                        e.getDepartment(),
-                        e.getPosition(),
-                        e.getStartDate(),
-                        e.getFinishDate(),
-                        e.getFunctions()
+                .map(experience -> new ExperienceResponse(
+                        experience.getId(),
+                        experience.getCompanyName(),
+                        experience.getDepartment(),
+                        experience.getPosition(),
+                        experience.getStartDate(),
+                        experience.getFinishDate(),
+                        experience.getFunctions()
                 ))
                 .toList();
     }

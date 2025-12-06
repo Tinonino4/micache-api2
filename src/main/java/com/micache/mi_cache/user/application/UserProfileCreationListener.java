@@ -10,13 +10,18 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class UserProfileCreationListener {
 
     private static final String DEFAULT_PHOTO = "https://randomuser.me/api/portraits/lego/1.jpg";
 
     private final UserProfileRepository userProfileRepository;
     private final UserRepository userRepository;
+
+    public UserProfileCreationListener(UserProfileRepository userProfileRepository,
+                                       UserRepository userRepository) {
+        this.userProfileRepository = userProfileRepository;
+        this.userRepository = userRepository;
+    }
 
     @EventListener
     public void handle(UserRegistrationCompletedEvent event) {

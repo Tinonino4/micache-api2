@@ -23,7 +23,6 @@ import com.micache.mi_cache.security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
     private final ConfirmationTokenRepository confirmationTokenRepository;
@@ -31,6 +30,21 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final EventBus eventBus;
+
+    public AuthService(UserRepository userRepository,
+                       ConfirmationTokenRepository confirmationTokenRepository,
+                       PasswordEncoder passwordEncoder,
+                       JwtService jwtService,
+                       AuthenticationManager authenticationManager,
+                       EventBus eventBus
+    ) {
+        this.userRepository = userRepository;
+        this.confirmationTokenRepository = confirmationTokenRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
+        this.eventBus = eventBus;
+    }
 
     public String login(String email, String password) throws AuthenticationException {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
