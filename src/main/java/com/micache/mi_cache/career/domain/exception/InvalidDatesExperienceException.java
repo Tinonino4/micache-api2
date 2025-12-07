@@ -1,0 +1,11 @@
+package com.micache.mi_cache.career.domain.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class InvalidDatesExperienceException extends RuntimeException {
+    public InvalidDatesExperienceException(String message) {
+        super(message);
+    }
+}

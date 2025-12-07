@@ -1,5 +1,6 @@
 package com.micache.mi_cache.security.exception;
 
+import com.micache.mi_cache.career.domain.exception.InvalidDatesExperienceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -36,6 +37,12 @@ public class GlobalSecurityExceptionHandler {
     public ResponseEntity<Object> handleNotFound(ResourceNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler(InvalidDatesExperienceException.class)
+    public ResponseEntity<Object> handleInvalidToken(InvalidDatesExperienceException ex) {
+        return buildErrorResponse(ex.getMessage(), "End date should be after start date", HttpStatus.BAD_REQUEST);
+    }
+
 
     private ResponseEntity<Object> buildErrorResponse(String message, String error, HttpStatus status) {
         Map<String, Object> body = new HashMap<>();

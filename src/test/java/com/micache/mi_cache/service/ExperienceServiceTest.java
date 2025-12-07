@@ -5,6 +5,7 @@ import com.micache.mi_cache.career.application.dto.CreateExperienceRequest;
 import com.micache.mi_cache.career.application.dto.ExperienceResponse;
 import com.micache.mi_cache.career.domain.Experience;
 import com.micache.mi_cache.career.domain.ExperienceRepository;
+import com.micache.mi_cache.career.domain.exception.InvalidDatesExperienceException;
 import com.micache.mi_cache.security.exception.ResourceNotFoundException;
 import com.micache.mi_cache.security.repository.UserRepository;
 import com.micache.mi_cache.user.domain.User;
@@ -121,8 +122,8 @@ class ExperienceServiceTest {
         // WHEN / THEN
         // Nota: Ni siquiera necesitamos mockear el repositorio porque la validación ocurre antes
         assertThatThrownBy(() -> experienceService.createExperience(USER_EMAIL, request))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("La fecha de fin no puede ser anterior");
+                .isInstanceOf(InvalidDatesExperienceException.class)
+                .hasMessageContaining("La fecha de finalización no puede ser anterior a la fecha de inicio.");
 
         verify(experienceRepository, never()).save(any());
     }

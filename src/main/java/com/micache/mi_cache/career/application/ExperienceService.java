@@ -4,6 +4,7 @@ import com.micache.mi_cache.career.application.dto.CreateExperienceRequest;
 import com.micache.mi_cache.career.application.dto.ExperienceResponse;
 import com.micache.mi_cache.career.domain.Experience;
 import com.micache.mi_cache.career.domain.ExperienceRepository;
+import com.micache.mi_cache.career.domain.exception.InvalidDatesExperienceException;
 import com.micache.mi_cache.security.exception.ResourceNotFoundException;
 import com.micache.mi_cache.security.repository.UserRepository;
 import com.micache.mi_cache.user.domain.User;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,6 +49,7 @@ public class ExperienceService {
 
     @Transactional
     public ExperienceResponse createExperience(String email, CreateExperienceRequest request) {
+        checkExperienceDates(request.startDate(), request.finishDate());
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado para email: " + email));
 
@@ -74,6 +77,12 @@ public class ExperienceService {
 
         // 6. Retorno mapeado
         return mapToResponse(savedExperience);
+    }
+
+    private static void checkExperienceDates(LocalDate startDate, LocalDate finishDate) {
+        if (finishDate != null && finishDate.isBefore(startDate)) {
+            throw new InvalidDatesExperienceException("La fecha de finalización no puede ser anterior a la fecha de inicio.");
+        }
     }
 
     @Transactional
