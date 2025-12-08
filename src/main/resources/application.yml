@@ -37,10 +37,11 @@ spring:
 
 jwt:
   secret-key: ${JWT_SECRET_KEY:my-super-secret-key-that-should-be-very-long}
-  expiration-ms: 3600000 # 1 hora en milisegundos
+  expiration-ms: 900000          # 15 minutos (Access Token - Corto)
+  refresh-expiration-ms: 2592000000 # 30 días (Refresh Token - Largo)
 
 app:
-  confirmation-url: http://localhost:8080/auth/confirm
+  confirmation-url: http://localhost:${server.port}${server.servlet.context-path}/auth/confirm
 
 management:
   endpoints:
@@ -54,5 +55,12 @@ management:
     enabled: false
 
 logging:
+  pattern:
+    # Formato: Fecha | Nivel | [TraceId, SpanId] | Thread | Usuario (si existe) | Clase | Mensaje
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr([%X{traceId:-},%X{spanId:-}]){yellow} %clr([user:%X{user:-anonymous}]){cyan} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
   level:
     org.springframework.web.cors: DEBUG
+
+google:
+  client-id: 407408718192.apps.googleusercontent.com
+  #756715587780-ma8tt6epgm59hgm3m8ba9v2okbeb7e9k.apps.googleusercontent.com

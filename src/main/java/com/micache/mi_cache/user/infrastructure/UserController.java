@@ -1,8 +1,7 @@
-package com.micache.mi_cache.controller;
+package com.micache.mi_cache.user.infrastructure;
 
 import com.micache.mi_cache.dto.UserProfileResponse;
 import com.micache.mi_cache.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;

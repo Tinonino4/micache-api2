@@ -5,10 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface ExperienceRepository{
+public interface ExperienceRepository {
     // Métodos de lectura
-    List<Experience> findAllByUserEmail(String email);
-    Optional<Experience> findByIdAndUserEmail(Long id, String email);
+    List<Experience> findAllByUserId(Long userId);
+    Optional<Experience> findByIdAndUserId(Long id, Long userId);
 
     // Métodos de escritura (Spring Data implementará save y delete automáticamente si las firmas coinciden)
     Experience save(Experience experience);

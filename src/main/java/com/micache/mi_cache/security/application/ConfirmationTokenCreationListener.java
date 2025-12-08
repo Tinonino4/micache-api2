@@ -7,11 +7,12 @@ import com.micache.mi_cache.security.repository.ConfirmationTokenRepository;
 import com.micache.mi_cache.security.repository.UserRepository;
 import com.micache.mi_cache.shared.domain.EventBus;
 import com.micache.mi_cache.user.domain.User;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -34,11 +35,16 @@ public class ConfirmationTokenCreationListener {
     @Value("${app.confirmation-url}")
     private String confirmationUrl;
 
-    @EventListener
-    @Transactional
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void handle(UserRegistrationCompletedEvent event) {
         User user = userRepository.findById(event.userId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // Si el usuario ya está activo (ej. vino de Google), no necesitamos confirmación.
+        if (user.isActive()) { // Asumiendo que User tiene el método isActive() o isEnabled()
+            return;
+        }
 
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = ConfirmationToken.builder()

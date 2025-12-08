@@ -40,6 +40,7 @@ class ExperienceServiceTest {
 
     // Constantes para los tests
     private final String USER_EMAIL = "juan@empresa.com";
+    private final Long USER_ID = 1L;
     private final Long EXP_ID = 100L;
 
     @Test
@@ -65,7 +66,7 @@ class ExperienceServiceTest {
         savedExperience.setCompanyName("Tech Corp");
         savedExperience.setPosition("Developer");
         savedExperience.setStartDate(LocalDate.now().minusYears(1));
-        savedExperience.setUser(mockUser);
+        savedExperience.setUserId(mockUser.getId());
 
         // Simulamos comportamiento de los repositorios
         when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(mockUser));
@@ -137,7 +138,7 @@ class ExperienceServiceTest {
         exp.setCompanyName("Old Job");
 
         when(userRepository.existsByEmail(USER_EMAIL)).thenReturn(true);
-        when(experienceRepository.findAllByUserEmail(USER_EMAIL)).thenReturn(List.of(exp));
+        when(experienceRepository.findAllByUserId(USER_ID)).thenReturn(List.of(exp));
 
         // WHEN
         List<ExperienceResponse> responses = experienceService.getMyExperiences(USER_EMAIL);
@@ -155,7 +156,7 @@ class ExperienceServiceTest {
         mockExp.setId(EXP_ID);
 
         // Mockeamos findByIdAndUserEmail para simular que ES el dueño
-        when(experienceRepository.findByIdAndUserEmail(EXP_ID, USER_EMAIL))
+        when(experienceRepository.findByIdAndUserId(EXP_ID, USER_ID))
                 .thenReturn(Optional.of(mockExp));
 
         // WHEN
@@ -170,7 +171,7 @@ class ExperienceServiceTest {
     void deleteExperience_NotFoundOrNotOwner() {
         // GIVEN
         // Simulamos que no se encuentra la combinación ID + Email
-        when(experienceRepository.findByIdAndUserEmail(EXP_ID, USER_EMAIL))
+        when(experienceRepository.findByIdAndUserId(EXP_ID, USER_ID))
                 .thenReturn(Optional.empty());
 
         // WHEN / THEN

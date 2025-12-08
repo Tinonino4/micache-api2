@@ -6,7 +6,6 @@ import com.micache.mi_cache.security.model.ConfirmationToken;
 import com.micache.mi_cache.user.domain.User;
 import com.micache.mi_cache.security.repository.ConfirmationTokenRepository;
 import com.micache.mi_cache.security.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

@@ -15,9 +15,8 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "user_id", nullable = false, unique = true)
+    private Long userId;
 
     @NotBlank
     @Size(max = 100)
@@ -25,7 +24,7 @@ public class UserProfile {
 
     @Email
     @NotBlank
-    private String email;
+    private String contactEmail;
 
     @Pattern(regexp = "^\\+?[0-9 .\\-]{7,20}$", message = "Número de teléfono inválido")
     private String phoneNumber;
@@ -56,11 +55,11 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public UserProfile(Long id, User user, String name, String email, String phoneNumber, String city, String jobTitle, String education, String zipcode, LocalDate birthday, String photo, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public UserProfile(Long id, Long userId, String name, String contactEmail, String phoneNumber, String city, String jobTitle, String education, String zipcode, LocalDate birthday, String photo, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
-        this.user = user;
+        this.userId = userId;
         this.name = name;
-        this.email = email;
+        this.contactEmail = contactEmail;
         this.phoneNumber = phoneNumber;
         this.city = city;
         this.jobTitle = jobTitle;
@@ -82,12 +81,12 @@ public class UserProfile {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -98,12 +97,12 @@ public class UserProfile {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getContactEmail() {
+        return contactEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
     }
 
     public String getPhoneNumber() {
@@ -199,9 +198,9 @@ public class UserProfile {
         if (o == null || getClass() != o.getClass()) return false;
         UserProfile that = (UserProfile) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(user, that.user) &&
+                Objects.equals(userId, that.userId) &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(email, that.email) &&
+                Objects.equals(contactEmail, that.contactEmail) &&
                 Objects.equals(phoneNumber, that.phoneNumber) &&
                 Objects.equals(city, that.city) &&
                 Objects.equals(jobTitle, that.jobTitle) &&
@@ -215,7 +214,7 @@ public class UserProfile {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, name, email, phoneNumber, city, jobTitle, education, zipcode, birthday, photo, createdAt, updatedAt);
+        return Objects.hash(id, userId, name, contactEmail, phoneNumber, city, jobTitle, education, zipcode, birthday, photo, createdAt, updatedAt);
     }
 
     // --- 5. toString ---
@@ -224,9 +223,9 @@ public class UserProfile {
     public String toString() {
         return "UserProfile{" +
                 "id=" + id +
-                ", userId=" + (user != null ? user.getId() : null) + // Evitamos recursividad imprimiendo solo el ID
+                ", userId=" + userId  +
                 ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
+                ", contactEmail='" + contactEmail + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", city='" + city + '\'' +
                 ", jobTitle='" + jobTitle + '\'' +
@@ -247,7 +246,7 @@ public class UserProfile {
 
     public static class UserProfileBuilder {
         private Long id;
-        private User user;
+        private Long userId;
         private String name;
         private String email;
         private String phoneNumber;
@@ -268,8 +267,8 @@ public class UserProfile {
             return this;
         }
 
-        public UserProfileBuilder user(User user) {
-            this.user = user;
+        public UserProfileBuilder user(Long userId) {
+            this.userId = userId;
             return this;
         }
 
@@ -329,7 +328,7 @@ public class UserProfile {
         }
 
         public UserProfile build() {
-            return new UserProfile(id, user, name, email, phoneNumber, city, jobTitle, education, zipcode, birthday, photo, createdAt, updatedAt);
+            return new UserProfile(id, userId, name, email, phoneNumber, city, jobTitle, education, zipcode, birthday, photo, createdAt, updatedAt);
         }
 
         public String toString() {

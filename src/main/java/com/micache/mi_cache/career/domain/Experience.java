@@ -25,9 +25,8 @@ public class Experience {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Long userId;
 
     @Column(nullable = false)
     private String companyName;
@@ -56,9 +55,9 @@ public class Experience {
     public Experience() {
     }
 
-    public Experience(Long id, User user, String companyName, String department, String position, LocalDate startDate, LocalDate finishDate, String functions, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Experience(Long id, Long userId, String companyName, String department, String position, LocalDate startDate, LocalDate finishDate, String functions, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
-        this.user = user;
+        this.userId = userId;
         this.companyName = companyName;
         this.department = department;
         this.position = position;
@@ -79,12 +78,12 @@ public class Experience {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getCompanyName() {
@@ -172,7 +171,7 @@ public class Experience {
         if (o == null || getClass() != o.getClass()) return false;
         Experience that = (Experience) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(user, that.user) &&
+                Objects.equals(userId, that.userId) &&
                 Objects.equals(companyName, that.companyName) &&
                 Objects.equals(department, that.department) &&
                 Objects.equals(position, that.position) &&
@@ -185,7 +184,7 @@ public class Experience {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, companyName, department, position, startDate, finishDate, functions, createdAt, updatedAt);
+        return Objects.hash(id, userId, companyName, department, position, startDate, finishDate, functions, createdAt, updatedAt);
     }
 
     // --- 5. toString (@Data lo incluye) ---
@@ -194,7 +193,7 @@ public class Experience {
     public String toString() {
         return "Experience{" +
                 "id=" + id +
-                ", user=" + user + // Cuidado: Posible recursividad si User tiene toString con Experience
+                ", userId=" + userId + // Cuidado: Posible recursividad si User tiene toString con Experience
                 ", companyName='" + companyName + '\'' +
                 ", department='" + department + '\'' +
                 ", position='" + position + '\'' +
@@ -214,7 +213,7 @@ public class Experience {
 
     public static class ExperienceBuilder {
         private Long id;
-        private User user;
+        private Long userId;
         private String companyName;
         private String department;
         private String position;
@@ -232,8 +231,8 @@ public class Experience {
             return this;
         }
 
-        public ExperienceBuilder user(User user) {
-            this.user = user;
+        public ExperienceBuilder userId(Long userId) {
+            this.userId = userId;
             return this;
         }
 
@@ -278,11 +277,11 @@ public class Experience {
         }
 
         public Experience build() {
-            return new Experience(id, user, companyName, department, position, startDate, finishDate, functions, createdAt, updatedAt);
+            return new Experience(id, userId, companyName, department, position, startDate, finishDate, functions, createdAt, updatedAt);
         }
 
         public String toString() {
-            return "Experience.ExperienceBuilder(id=" + this.id + ", user=" + this.user + ", companyName=" + this.companyName + ", department=" + this.department + ", position=" + this.position + ", startDate=" + this.startDate + ", finishDate=" + this.finishDate + ", functions=" + this.functions + ", createdAt=" + this.createdAt + ", updatedAt=" + this.updatedAt + ")";
+            return "Experience.ExperienceBuilder(id=" + this.id + ", userId=" + this.userId + ", companyName=" + this.companyName + ", department=" + this.department + ", position=" + this.position + ", startDate=" + this.startDate + ", finishDate=" + this.finishDate + ", functions=" + this.functions + ", createdAt=" + this.createdAt + ", updatedAt=" + this.updatedAt + ")";
         }
     }
 }

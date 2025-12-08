@@ -2,6 +2,7 @@ package com.micache.mi_cache.security.exception;
 
 import com.micache.mi_cache.career.domain.exception.InvalidDatesExperienceException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,23 +15,35 @@ import java.util.Map;
 public class GlobalSecurityExceptionHandler {
 
     @ExceptionHandler(InvalidPasswordException.class)
-    public ResponseEntity<Object> handleInvalidPassword(InvalidPasswordException ex) {
-        return buildErrorResponse(ex.getMessage(), "Invalid Password", HttpStatus.BAD_REQUEST);
+    public ProblemDetail handleInvalidPassword(InvalidPasswordException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problem.setTitle("Invalid Password");
+        problem.setProperty("timestamp", LocalDateTime.now());
+        return problem;
     }
 
     @ExceptionHandler(InvalidTokenException.class)
-    public ResponseEntity<Object> handleInvalidToken(InvalidTokenException ex) {
-        return buildErrorResponse(ex.getMessage(), "Invalid Token", HttpStatus.BAD_REQUEST);
+    public ProblemDetail handleInvalidToken(InvalidTokenException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problem.setTitle("Invalid Token");
+        problem.setProperty("timestamp", LocalDateTime.now());
+        return problem;
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGenericException(Exception ex) {
-        return buildErrorResponse(ex.getMessage(), "Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+    public ProblemDetail handleGenericException(Exception ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        problem.setTitle("Internal Server Error");
+        problem.setProperty("timestamp", LocalDateTime.now());
+        return problem;
     }
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<Object> handleEmailAlreadyExists(EmailAlreadyExistsException ex) {
-        return buildErrorResponse(ex.getMessage(), "Email Already Exists", HttpStatus.BAD_REQUEST);
+    public ProblemDetail handleEmailAlreadyExists(EmailAlreadyExistsException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problem.setTitle("Email Already Exists");
+        problem.setProperty("timestamp", LocalDateTime.now());
+        return problem;
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -39,8 +52,11 @@ public class GlobalSecurityExceptionHandler {
     }
 
     @ExceptionHandler(InvalidDatesExperienceException.class)
-    public ResponseEntity<Object> handleInvalidToken(InvalidDatesExperienceException ex) {
-        return buildErrorResponse(ex.getMessage(), "End date should be after start date", HttpStatus.BAD_REQUEST);
+    public ProblemDetail handleInvalidToken(InvalidDatesExperienceException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problem.setTitle("EEnd date should be after start date");
+        problem.setProperty("timestamp", LocalDateTime.now());
+        return problem;
     }
 
 

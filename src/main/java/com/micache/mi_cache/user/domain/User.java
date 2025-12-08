@@ -30,9 +30,6 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String role;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private UserProfile profile;
-
     // -----------------------------------------------------------------
     // 1. CONSTRUCTORES (Reemplaza @NoArgsConstructor y @AllArgsConstructor)
     // -----------------------------------------------------------------
@@ -48,7 +45,6 @@ public class User implements UserDetails {
         this.password = password;
         this.active = active;
         this.role = role;
-        this.profile = profile;
     }
 
     // -----------------------------------------------------------------
@@ -93,14 +89,6 @@ public class User implements UserDetails {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public UserProfile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(UserProfile profile) {
-        this.profile = profile;
     }
 
     // -----------------------------------------------------------------

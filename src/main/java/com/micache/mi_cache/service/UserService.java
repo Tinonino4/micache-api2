@@ -6,7 +6,6 @@ import com.micache.mi_cache.user.domain.User;
 import com.micache.mi_cache.model.UserProfile;
 import com.micache.mi_cache.repository.UserProfileRepository;
 import com.micache.mi_cache.security.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service

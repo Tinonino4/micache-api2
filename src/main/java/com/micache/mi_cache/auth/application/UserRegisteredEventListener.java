@@ -2,8 +2,6 @@ package com.micache.mi_cache.auth.application;
 
 import com.micache.mi_cache.auth.domain.events.UserRegisteredEvent;
 import com.micache.mi_cache.service.EmailService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
@@ -31,11 +29,10 @@ public class UserRegisteredEventListener {
         this.resourceLoader = resourceLoader;
     }
 
-    @Async // Buena práctica: enviar emails en hilo separado para no bloquear el registro
+    @Async
     @EventListener
     public void handle(UserRegisteredEvent event) {
         try {
-            // Leemos desde el classpath, funciona en local y en Docker/JAR
             Resource resource = resourceLoader.getResource("classpath:templates/email_template_confirmacion.html");
             String emailTemplate = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
 
