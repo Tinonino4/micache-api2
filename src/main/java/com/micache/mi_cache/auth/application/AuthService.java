@@ -87,7 +87,7 @@ public class AuthService {
 
     private User registerGoogleUser(GoogleTokenVerifier.GoogleUser googleUser) {
         User user = new User();
-        // user.setname(googleUser.name());
+        user.setName(googleUser.name());
         user.setEmail(googleUser.email());
         // Contraseña dummy fuerte (nunca se usará, pero satisface la DB)
         user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));

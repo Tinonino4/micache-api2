@@ -22,6 +22,9 @@ public class User implements UserDetails {
     private String email;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
@@ -39,9 +42,10 @@ public class User implements UserDetails {
     }
 
     // Constructor con todos los argumentos
-    public User(Long id, String email, String password, boolean active, String role, UserProfile profile) {
+    public User(Long id, String email, String name, String password, boolean active, String role, UserProfile profile) {
         this.id = id;
         this.email = email;
+        this.name = name;
         this.password = password;
         this.active = active;
         this.role = role;
@@ -69,6 +73,14 @@ public class User implements UserDetails {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setPassword(String password) {
@@ -148,9 +160,9 @@ public class User implements UserDetails {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
                 ", active=" + active +
                 ", role='" + role + '\'' +
-                // Importante: No incluimos 'profile' para evitar ciclo infinito
                 '}';
     }
 
@@ -165,6 +177,7 @@ public class User implements UserDetails {
     public static class UserBuilder {
         private Long id;
         private String email;
+        private String name;
         private String password;
         private boolean active;
         private String role;
@@ -180,6 +193,11 @@ public class User implements UserDetails {
 
         public UserBuilder email(String email) {
             this.email = email;
+            return this;
+        }
+
+        public UserBuilder name(String name) {
+            this.name = name;
             return this;
         }
 
@@ -204,11 +222,11 @@ public class User implements UserDetails {
         }
 
         public User build() {
-            return new User(id, email, password, active, role, profile);
+            return new User(id, email, name, password, active, role, profile);
         }
 
         public String toString() {
-            return "User.UserBuilder(id=" + this.id + ", email=" + this.email + ", password=" + this.password + ", active=" + this.active + ", role=" + this.role + ", profile=" + this.profile + ")";
+            return "User.UserBuilder(id=" + this.id + ", email=" + this.email + ", name=" + this.name + ", password=" + this.password + ", active=" + this.active + ", role=" + this.role + ", profile=" + this.profile + ")";
         }
     }
 }

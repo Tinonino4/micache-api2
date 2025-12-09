@@ -1,6 +1,6 @@
 package com.micache.mi_cache.model;
 
-import com.micache.mi_cache.user.domain.User;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user_profile")
+@Table(name = "user_profiles")
 public class UserProfile {
 
     @Id
@@ -21,6 +21,12 @@ public class UserProfile {
     @NotBlank
     @Size(max = 100)
     private String name;
+
+    @Size(max = 100)
+    private String surname;
+
+    @Column(columnDefinition = "TEXT", name = "about_me")
+    private String aboutme;
 
     @Email
     @NotBlank
@@ -43,7 +49,7 @@ public class UserProfile {
 
     private LocalDate birthday;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String photo;
 
     private LocalDateTime createdAt;
@@ -55,10 +61,12 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public UserProfile(Long id, Long userId, String name, String contactEmail, String phoneNumber, String city, String jobTitle, String education, String zipcode, LocalDate birthday, String photo, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public UserProfile(Long id, Long userId, String name, String surname, String aboutme, String contactEmail, String phoneNumber, String city, String jobTitle, String education, String zipcode, LocalDate birthday, String photo, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.userId = userId;
         this.name = name;
+        this.surname = surname;
+        this.aboutme = aboutme;
         this.contactEmail = contactEmail;
         this.phoneNumber = phoneNumber;
         this.city = city;
@@ -97,12 +105,28 @@ public class UserProfile {
         this.name = name;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
     public String getContactEmail() {
         return contactEmail;
     }
 
     public void setContactEmail(String contactEmail) {
         this.contactEmail = contactEmail;
+    }
+
+    public String getAboutme() {
+        return aboutme;
+    }
+
+    public void setAboutme(String aboutme) {
+        this.aboutme = aboutme;
     }
 
     public String getPhoneNumber() {
@@ -200,7 +224,9 @@ public class UserProfile {
         return Objects.equals(id, that.id) &&
                 Objects.equals(userId, that.userId) &&
                 Objects.equals(name, that.name) &&
+                Objects.equals(surname, that.surname) &&
                 Objects.equals(contactEmail, that.contactEmail) &&
+                Objects.equals(aboutme, that.aboutme) &&
                 Objects.equals(phoneNumber, that.phoneNumber) &&
                 Objects.equals(city, that.city) &&
                 Objects.equals(jobTitle, that.jobTitle) &&
@@ -214,7 +240,7 @@ public class UserProfile {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, name, contactEmail, phoneNumber, city, jobTitle, education, zipcode, birthday, photo, createdAt, updatedAt);
+        return Objects.hash(id, userId, name, surname, contactEmail, aboutme, phoneNumber, city, jobTitle, education, zipcode, birthday, photo, createdAt, updatedAt);
     }
 
     // --- 5. toString ---
@@ -225,7 +251,9 @@ public class UserProfile {
                 "id=" + id +
                 ", userId=" + userId  +
                 ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
                 ", contactEmail='" + contactEmail + '\'' +
+                ", aboutme='" + aboutme + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", city='" + city + '\'' +
                 ", jobTitle='" + jobTitle + '\'' +
@@ -248,7 +276,9 @@ public class UserProfile {
         private Long id;
         private Long userId;
         private String name;
-        private String email;
+        private String surname;
+        private String contactEmail;
+        private String aboutme;
         private String phoneNumber;
         private String city;
         private String jobTitle;
@@ -277,8 +307,18 @@ public class UserProfile {
             return this;
         }
 
-        public UserProfileBuilder email(String email) {
-            this.email = email;
+        public UserProfileBuilder surname(String surname) {
+            this.surname = surname;
+            return this;
+        }
+
+        public UserProfileBuilder contactEmail(String contactEmail) {
+            this.contactEmail = contactEmail;
+            return this;
+        }
+
+        public UserProfileBuilder aboutme(String aboutme) {
+            this.aboutme = aboutme;
             return this;
         }
 
@@ -328,11 +368,11 @@ public class UserProfile {
         }
 
         public UserProfile build() {
-            return new UserProfile(id, userId, name, email, phoneNumber, city, jobTitle, education, zipcode, birthday, photo, createdAt, updatedAt);
+            return new UserProfile(id, userId, name, surname, contactEmail, aboutme, phoneNumber, city, jobTitle, education, zipcode, birthday, photo, createdAt, updatedAt);
         }
 
         public String toString() {
-            return "UserProfile.UserProfileBuilder(id=" + this.id + ", name=" + this.name + ", email=" + this.email + ")";
+            return "UserProfile.UserProfileBuilder(id=" + this.id + ", name=" + this.name + ", contact_email=" + this.contactEmail + ")";
         }
     }
 }

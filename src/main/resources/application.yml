@@ -13,7 +13,9 @@ spring:
     password: admin123
   jpa:
     hibernate:
-        ddl-auto: update
+        ddl-auto: validate
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy # O CamelCaseToUnderscoresNamingStrategy
         default_schema: public
     show-sql: true
     properties:
