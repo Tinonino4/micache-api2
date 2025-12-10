@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ExperienceRepository {
     // Métodos de lectura
-    List<Experience> findAllByUserId(Long userId);
+    List<Experience> findAllByUserIdOrderByStartDateDesc(Long userId);
     Optional<Experience> findByIdAndUserId(Long id, Long userId);
 
     // Métodos de escritura (Spring Data implementará save y delete automáticamente si las firmas coinciden)

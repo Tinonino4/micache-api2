@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 // Spring implementa automáticamente los métodos coincidentes.
 @Repository
 public interface JpaExperienceRepository extends JpaRepository<Experience, Long>, ExperienceRepository {
-    // No hace falta escribir código, Spring Data lo hace por el nombre del método
 }
