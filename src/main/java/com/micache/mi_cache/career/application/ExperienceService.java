@@ -39,7 +39,7 @@ public class ExperienceService {
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         // Obtenemos solo las experiencias de ESTE email
-        List<Experience> experiences = experienceRepository.findAllByUserId(user.getId());
+        List<Experience> experiences = experienceRepository.findAllByUserIdOrderByStartDateDesc(user.getId());
 
         return experiences.stream()
                 .map(this::mapToResponse)

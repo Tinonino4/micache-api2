@@ -1,4 +1,4 @@
-package com.micache.mi_cache.dashboard.application;
+package com.micache.mi_cache.analytics.application;
 
 import com.micache.mi_cache.analytics.domain.UserSkillsMetric;
 import com.micache.mi_cache.analytics.infrastructure.UserSkillsMetricRepository;

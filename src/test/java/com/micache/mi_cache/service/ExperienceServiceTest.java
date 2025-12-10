@@ -137,8 +137,12 @@ class ExperienceServiceTest {
         exp.setId(1L);
         exp.setCompanyName("Old Job");
 
-        when(userRepository.existsByEmail(USER_EMAIL)).thenReturn(true);
-        when(experienceRepository.findAllByUserId(USER_ID)).thenReturn(List.of(exp));
+        User mockUser = new User();
+        mockUser.setId(USER_ID);
+        mockUser.setEmail(USER_EMAIL);
+
+        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(mockUser));
+        when(experienceRepository.findAllByUserIdOrderByStartDateDesc(USER_ID)).thenReturn(List.of(exp));
 
         // WHEN
         List<ExperienceResponse> responses = experienceService.getMyExperiences(USER_EMAIL);
@@ -155,6 +159,11 @@ class ExperienceServiceTest {
         Experience mockExp = new Experience();
         mockExp.setId(EXP_ID);
 
+        User mockUser = new User();
+        mockUser.setId(USER_ID);
+        mockUser.setEmail(USER_EMAIL);
+
+        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(mockUser));
         // Mockeamos findByIdAndUserEmail para simular que ES el dueño
         when(experienceRepository.findByIdAndUserId(EXP_ID, USER_ID))
                 .thenReturn(Optional.of(mockExp));
@@ -170,6 +179,11 @@ class ExperienceServiceTest {
     @DisplayName("deleteExperience: Debería lanzar error si la experiencia no existe o no es del usuario")
     void deleteExperience_NotFoundOrNotOwner() {
         // GIVEN
+        User mockUser = new User();
+        mockUser.setId(USER_ID);
+        mockUser.setEmail(USER_EMAIL);
+
+        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(mockUser));
         // Simulamos que no se encuentra la combinación ID + Email
         when(experienceRepository.findByIdAndUserId(EXP_ID, USER_ID))
                 .thenReturn(Optional.empty());

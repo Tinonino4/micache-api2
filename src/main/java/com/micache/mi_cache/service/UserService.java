@@ -28,6 +28,7 @@ public class UserService {
 
         return new UserProfileResponse(
                 profile.getName(),
+                profile.getContactEmail(),
                 profile.getCity(),
                 profile.getEducation(),
                 profile.getJobTitle()
