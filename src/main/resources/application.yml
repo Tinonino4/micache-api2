@@ -1,8 +1,16 @@
 server:
   address: 0.0.0.0
   port: 8082
-  servlet:
-    context-path: /api/v1
+  # servlet:
+    # context-path: /api/v1
+
+springdoc:
+  api-docs:
+    path: /api-docs # Personaliza la ruta del JSON
+  swagger-ui:
+    path: /swagger-ui.html # Personaliza la ruta de la UI
+    operations-sorter: method # Ordena por método HTTP (GET, POST, etc.)
+    tags-sorter: alpha # Ordena los tags alfabéticamente
 
 spring:
   application:
@@ -43,7 +51,7 @@ jwt:
   refresh-expiration-ms: 2592000000 # 30 días (Refresh Token - Largo)
 
 app:
-  confirmation-url: http://localhost:${server.port}${server.servlet.context-path}/auth/confirm
+  confirmation-url: http://localhost:${server.port}api/v1/auth/confirm
 
 management:
   endpoints:

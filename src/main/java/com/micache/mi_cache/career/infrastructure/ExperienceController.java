@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/experiences")
+@RequestMapping("/api/v1/experiences")
 @Tag(name = "Carrera Profesional", description = "Gestión de experiencias laborales del usuario actual")
 @SecurityRequirement(name = "bearerAuth")
 public class ExperienceController {

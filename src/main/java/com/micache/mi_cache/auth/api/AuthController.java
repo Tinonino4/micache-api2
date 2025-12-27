@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @Tag(name = "Autenticación", description = "Endpoints para registro, login y confirmación de email")
 public class AuthController {
 
