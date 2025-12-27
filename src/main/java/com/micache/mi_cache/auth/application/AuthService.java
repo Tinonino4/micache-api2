@@ -163,7 +163,7 @@ public class AuthService {
     @Transactional
     public void register(RegisterRequest request) {
         // Validar si el email ya existe
-        if (userRepository.findByEmail(request.email()).isPresent()) {
+        if (userRepository.existsByEmail(request.email())) {
             throw new EmailAlreadyExistsException("Email already registered.");
         }
 
